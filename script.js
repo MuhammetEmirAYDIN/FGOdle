@@ -137,6 +137,7 @@ function updateDropdown(servants) {
 
 // Update your main code to use the custom dropdown
 let servantList = [];
+let allServants = [];
 let answer = null;
 let wrongGuessCount = 0;
 let hintThresholds = [5, 8, 11];
@@ -163,6 +164,7 @@ document.getElementById("randomMode").onclick = () => {
 
 document.getElementById("refreshRandom").onclick = () => {
   if (gameMode === 'random') loadRandomServant();
+  restartGame();
 };
 
 function refreshHintsUI() {
@@ -191,8 +193,8 @@ refreshHintsUI();
 fetch('servants.json')
     .then(res => res.json())
     .then(data => {
-        servantList = data;
-
+        servantList = [...data];
+        allServants = [...data];
         servantList.forEach(servant => {
             if (servant.aligment) {
                 // Convert order to array if it's not already
@@ -243,6 +245,22 @@ function loadRandomServant() {
     // Log to ensure answer is correctly set
     console.log("Random Servant loaded:", answer ? answer.name : 'No answer set');
     resetGameState();
+}
+function restartGame() {
+    hasGuessedCorrectly = false;
+    wrongGuessCount = 0;
+
+    input.disabled = false;
+    submitbtn.disabled = false;
+
+    input.value = "";
+    feedback.textContent = "";
+    feedback.style.color = "black";
+
+    guessesDiv.innerHTML = "";
+
+    servantList = [...allServants];  // ✅ Fully restore list
+    updateDropdown([]);
 }
 
 function resetGameState() {
@@ -490,6 +508,8 @@ answer.aligment.order.forEach(order => {
     input.value = "";
     feedback.textContent = "";
     feedback.style.color = "black";
+
+    servantList= [...allServants];
 
     updateDropdown([]);
 });
