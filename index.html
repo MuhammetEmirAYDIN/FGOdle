@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title> FGOdle</title>
+        <link rel="stylesheet" href="style.css"> 
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        
+        <script src="script.js" defer ></script>
+        <h1> Guess the Servant</h1>
+        <div class="subheading"> Servants with different modifiers in different ascension will take the first ascension</div>
+        <div class="subheading note">Two pair servants will have the first name's height and weight will be taken into account</div>
+        <div class="input-row">
+            <input type="text" id="guessInput" list="servantsList" placeholder="Enter a servant name">
+            <datalist id="servantsList"></datalist>
+            <button id="submitGuess">Guess</button>
+        </div>
+
+        <div id="hintCountdownBar">
+            <div class="hint-bar">
+              <span class="hint-1">Hint 1: <span id="hint1Countdown" class="hint-countdown">5</span></span><br>
+              <span class="hint-2">Hint 2: <span id="hint2Countdown" class="hint-countdown">8</span></span><br>
+              <span class="hint-3">Hint 3: <span id="hint3Countdown" class="hint-countdown">11</span></span>
+            </div>
+            <div id="revealedHints"></div>
+          </div>
+
+        <div id="feedback"></div>
+
+        <div id="guessHeader" class="guess-row header-row">
+            <div class="empty-header"></div>
+            <div class="hint-box">Name</div>
+            <div class="hint-box">Height</div>
+            <div class="hint-box">Weight</div>
+            <div class="hint-box">Gender</div>
+            <div class="hint-box">Class</div>
+            <div class="hint-box">Year</div>
+            <div class="hint-box">Rarity</div>
+            <div class="hint-box">Alignment</div>
+          </div>
+        <div id="guesses"></div>
+
+        <div id="winmodal" class="modal">
+          <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Congratulations!</h2>
+            <img src="images/orion-transformed.png" alt="Victory" class="VictoryImage">
+            <p id="StreakText">Current Streak: 0</p>
+          </div>
+        </div>
+    </body>
+</html>
+
