@@ -8,7 +8,10 @@ const backgroundImages = [
     'images/Patxi_s Home.png',
 ];
 
-
+const feedback = document.getElementById("feedback");
+const input = document.getElementById("guessInput");
+const guessesDiv = document.getElementById("guesses");
+const submitbtn = document.getElementById("submitGuess");
 function setRandomBackground() {
     const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
     document.body.style.backgroundImage = `url('${randomImage}')`;
@@ -37,26 +40,6 @@ function hashToNumber(str,max)
 
 window.onload = setRandomBackground;
 
-for (let i = 0; i < 3; i++) {
-    const hintContainer = document.getElementById(`hint${i + 1}Countdown`).parentElement;
-    hintContainer.addEventListener('click', () => {
-        if (hintUnlocked[i] && !hintShownFlags[i]) {
-            const hintKey = `hint${i + 1}`;
-            const newHint = answer[hintKey];
-            if (newHint) {
-                const revealed = document.getElementById("revealedHints");
-                const hintP = document.createElement("p");
-                hintP.textContent = `Hint ${i + 1}: ${newHint}`;
-                hintP.className = `revealed-hint hint-${i + 1}`;
-                revealed.appendChild(hintP);
-            }
-
-            hintContainer.style.display = "none";
-            hintShownFlags[i] = true;
-            hintsShown++;
-        }
-    });
-}
 
 function updateStreakOnWin() {
     const today = new Date().toISOString().split('T')[0];
@@ -163,7 +146,24 @@ let hintsShown = 0;
 let hintAvailable = [false,false,false];
 let currentStreak = parseInt(localStorage.getItem("fgoStreak")) || 0;;
 let hasGuessedCorrectly = false;
+let gameMode = 'daily';
+let currentServant = null;
 
+document.getElementById("dailyMode").onclick = () => {
+gameMode = 'daily';
+document.getElementById("refreshRandom").style.display = "none";
+loadDailyServant();
+};
+
+document.getElementById("randomMode").onclick = () => {
+  gameMode = 'random';
+  document.getElementById("refreshRandom").style.display = "inline";
+  loadRandomServant();
+};
+
+document.getElementById("refreshRandom").onclick = () => {
+  if (gameMode === 'random') loadRandomServant();
+};
 
 function refreshHintsUI() {
     for (let i = 0; i < 3; i++) {
@@ -186,10 +186,86 @@ function refreshHintsUI() {
     }
 }
 refreshHintsUI();
-for (let i = 0; i < 3; i++) {
-    const countdownSpan = document.getElementById(`hint${i + 1}Countdown`);
-    const hintContainer = countdownSpan.parentElement;
 
+
+fetch('servants.json')
+    .then(res => res.json())
+    .then(data => {
+        servantList = data;
+
+        servantList.forEach(servant => {
+            if (servant.aligment) {
+                // Convert order to array if it's not already
+                if (!Array.isArray(servant.aligment.order)) {
+                    servant.aligment.order = [servant.aligment.order];
+                }
+
+                // Convert morality to array if it's not already
+                if (!Array.isArray(servant.aligment.morality)) {
+                    servant.aligment.morality = [servant.aligment.morality];
+                }
+            }
+        });
+
+        // Now, servantList is populated. Load the appropriate servant.
+        if (gameMode === 'daily') {
+            console.log("Loading Daily Servant...");
+            loadDailyServant();
+        } else {
+            console.log("Loading Random Servant...");
+            loadRandomServant();
+        }
+
+        // Ensure answer is populated before accessing it
+        console.log("Random Servant selected:", answer ? answer.name : 'No answer set');
+        setupCustomDropdown();
+    })
+    .catch(error => {
+        console.error("Error loading servant data:", error);
+    });
+
+function loadDailyServant() {
+    const today = getTodaySeed();
+    const index = hashToNumber(today, servantList.length);
+    currentServant = servantList[index];
+    answer = currentServant;
+
+    // Log to ensure answer is correctly set
+    console.log("Daily Servant loaded:", answer ? answer.name : 'No answer set');
+    resetGameState();
+}
+
+function loadRandomServant() {
+    const index = Math.floor(Math.random() * servantList.length);
+    currentServant = servantList[index];
+    answer = currentServant;
+
+    // Log to ensure answer is correctly set
+    console.log("Random Servant loaded:", answer ? answer.name : 'No answer set');
+    resetGameState();
+}
+
+function resetGameState() {
+    input.value = '';
+    wrongGuessCount = 0;
+    hintsShown = 0;
+    hintUnlocked = [false, false, false];
+    hintShownFlags[0] = false;
+    hintShownFlags[1] = false;
+    hintShownFlags[2] = false;
+    hasGuessedCorrectly = false;
+
+    document.getElementById("revealedHints").innerHTML = '';
+    document.getElementById("guessInput").disabled = false; // Ensure input field is enabled
+    document.getElementById("submitGuess").disabled = false;
+    refreshHintsUI();
+    feedback.innerHTML = '';
+    guessesDiv.innerHTML = '';
+}
+
+
+for (let i = 0; i < 3; i++) {
+    const hintContainer = document.getElementById(`hint${i + 1}Countdown`).parentElement;
     hintContainer.addEventListener('click', () => {
         if (hintUnlocked[i] && !hintShownFlags[i]) {
             const hintKey = `hint${i + 1}`;
@@ -208,36 +284,6 @@ for (let i = 0; i < 3; i++) {
         }
     });
 }
-
-fetch('servants.json')
-    .then(res => res.json())
-    .then(data => {
-        servantList = data;
-        servantList.forEach(servant => {
-            if (servant.aligment) {
-                // Convert order to array if it's not already
-                if (!Array.isArray(servant.aligment.order)) {
-                    servant.aligment.order = [servant.aligment.order];
-                }
-        
-                // Convert morality to array if it's not already
-                if (!Array.isArray(servant.aligment.morality)) {
-                    servant.aligment.morality = [servant.aligment.morality];
-                }
-            }
-        });
-        // Initialize dropdown after data is loaded
-       
-        const seed = getTodaySeed();
-        const index = hashToNumber(seed,servantList.length);
-        answer = servantList[index];
-        //answer = servantList[Math.floor(Math.random() * servantList.length)];
-        console.log("Random servant selected:", answer.name);
-        setupCustomDropdown();
-    });
-
-const input = document.getElementById("guessInput");
-
 function showinModal()
 {
     const modal = document.getElementById("winmodal");
@@ -245,6 +291,10 @@ function showinModal()
     const currentStreak = localStorage.getItem("fgoStreak") || 0;
     streakText.textContent = "Current Streak:" +currentStreak + "🔥";
     modal.style.display = "block";
+}
+
+if (gameMode === 'daily') {
+  loadDailyServant();
 }
 
 document.querySelector(".close-button").addEventListener("click",() => {
@@ -290,10 +340,10 @@ input.addEventListener("input", (event) => {
 });
 
 
-const submitbtn = document.getElementById("submitGuess");
 
-const feedback = document.getElementById("feedback");
-const guessesDiv = document.getElementById("guesses");
+
+
+
 
 
 
@@ -423,10 +473,23 @@ answer.aligment.order.forEach(order => {
             submitbtn.disabled = true;
             showinModal();
         }
-
         guessesDiv.prepend(row);
         input.value = "";
         feedback.textContent = "";  
         servantList = servantList.filter(s => s.name.toLowerCase() !== guessed.name.toLowerCase());
         updateDropdown([]);
     });
+
+    window.addEventListener("load", () => {
+    hasGuessedCorrectly = false;
+    wrongGuessCount = 0;
+
+    input.disabled = false;
+    submitbtn.disabled = false;
+
+    input.value = "";
+    feedback.textContent = "";
+    feedback.style.color = "black";
+
+    updateDropdown([]);
+});
