@@ -176,8 +176,8 @@ function refreshHintsUI() {
 
         if (hintShownFlags[i]) {
             container.style.display = "none";
-        } else if (wrongGuessCount >= hintThresholds[i]) {
-            hintUnlocked[i] = true;
+        } else if (hintUnlocked[i]) {
+            // Only unlock if explicitly marked unlocked
             countdownSpan.textContent = "Unlock Hint";
             countdownSpan.classList.add("clickable-hint");
             countdownSpan.style.cursor = "pointer";
@@ -186,9 +186,11 @@ function refreshHintsUI() {
             countdownSpan.textContent = remaining > 0 ? remaining : 0;
             countdownSpan.classList.remove("clickable-hint");
             countdownSpan.style.cursor = "default";
+            container.style.display = "block" // Make sure it's shown
         }
     }
 }
+
 refreshHintsUI();
 
 
@@ -269,41 +271,68 @@ function resetGameState() {
     input.value = '';
     wrongGuessCount = 0;
     hintsShown = 0;
-    hintUnlocked = [false, false, false];
-    hintShownFlags[0] = false;
-    hintShownFlags[1] = false;
-    hintShownFlags[2] = false;
     hasGuessedCorrectly = false;
 
-    document.getElementById("revealedHints").innerHTML = '';
-    document.getElementById("guessInput").disabled = false; // Ensure input field is enabled
+    document.getElementById("guessInput").disabled = false;
     document.getElementById("submitGuess").disabled = false;
-    refreshHintsUI();
     feedback.innerHTML = '';
     guessesDiv.innerHTML = '';
+
+
+    for (let i = 0; i < 3; i++) 
+    {
+        hintUnlocked[i] = false;
+        hintShownFlags[i] = false;
+    }
+    // Clear hint display
+    const revealedContainer = document.getElementById("revealedHints");
+    revealedContainer.innerHTML = '';
+
+    // Rebuild ONLY the hints the user has already chosen to reveal
+    for (let i = 0; i < 3; i++) {
+        if (hintShownFlags[i]) {
+            const hintKey = `hint${i + 1}`;
+            const hintText = answer[hintKey];
+            const hintP = document.createElement("p");
+            hintP.textContent = `Hint ${i + 1}: ${hintText}`;
+            hintP.className = `revealed-hint hint-${i + 1}`;
+            revealedContainer.appendChild(hintP);
+        }
+    }
+    // Reset button states properly
+    refreshHintsUI();
 }
+
 
 
 for (let i = 0; i < 3; i++) {
     const hintContainer = document.getElementById(`hint${i + 1}Countdown`).parentElement;
-    hintContainer.addEventListener('click', () => {
-        if (hintUnlocked[i] && !hintShownFlags[i]) {
-            const hintKey = `hint${i + 1}`;
-            const newHint = answer[hintKey];
-            if (newHint) {
-                const revealed = document.getElementById("revealedHints");
-                const hintP = document.createElement("p");
-                hintP.textContent = `Hint ${i + 1}: ${newHint}`;
-                hintP.className = `revealed-hint hint-${i + 1}`;
-                revealed.appendChild(hintP);
-            }
+hintContainer.addEventListener('click', () => {
+    if (hintUnlocked[i] && !hintShownFlags[i]) {
+        const hintKey = `hint${i + 1}`;
+        const newHint = answer[hintKey];
+        if (newHint) {
+            const revealed = document.getElementById("revealedHints");
+            const hintP = document.createElement("p");
+            hintP.textContent = `Hint ${i + 1}: ${newHint}`;
+            hintP.className = `revealed-hint hint-${i + 1}`;
+            revealed.appendChild(hintP);
 
-            hintContainer.style.display = "none";
-            hintShownFlags[i] = true;
-            hintsShown++;
+            // ✅ Save to localStorage
+            const revealedHints = JSON.parse(localStorage.getItem('revealedHints') || '[]');
+            revealedHints.push({ index: i, text: newHint });
+            localStorage.setItem('revealedHints', JSON.stringify(revealedHints));
         }
-    });
+
+        hintContainer.style.display = "none";
+        hintShownFlags[i] = true;
+        hintsShown++;
+    }
+});
 }
+
+
+
 function showinModal()
 {
     const modal = document.getElementById("winmodal");
@@ -400,7 +429,12 @@ submitbtn.addEventListener("click", () => {
     else
     {
         wrongGuessCount++;
-        refreshHintsUI();
+        for (let i = 0; i < 3; i++) {
+    if (!hintUnlocked[i] && wrongGuessCount >= hintThresholds[i]) {
+        hintUnlocked[i] = true;
+    }
+}
+refreshHintsUI();
     }
 
         const row = document.createElement("div");
@@ -431,8 +465,25 @@ submitbtn.addEventListener("click", () => {
         row.appendChild(makeBox(guessed.name, guessed.name === answer.name ? "correct" : "wrong"));
 
         let compareBox = (val, correct, label) => {
-            let state = val === correct ? "correct" : "wrong";
-            let arrow = val < correct ? "up" : val > correct ? "down" : null;
+            let state = "wrong";
+            let arrow = null;
+
+            if (val == correct)
+            {
+                state = "correct";
+            }
+
+            else if (!isNaN(val) && !isNaN(correct)) 
+            {
+                let valNum = Number(val);
+                let correctNum = Number(correct);   
+                arrow = valNum < correctNum ? "up" : "down";
+            }
+            if (val == "-" || correct == "-") 
+            {
+                arrow =  null;
+            }
+
             row.appendChild(makeBox(val, state, arrow));
         };
 

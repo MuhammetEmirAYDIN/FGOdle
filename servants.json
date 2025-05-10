@@ -1630,7 +1630,7 @@
             "morality": "Balanced"
         },
         "aliases":[],
-        "image": "images/servant_icons/Fionn_Mac_Cumhaill.png"
+        "image": "images/servant_icons/Fionn_mac_Cumhaill.png"
     },
 
     {
@@ -2389,7 +2389,7 @@
             "morality": "Good"
         },
         "aliases":[],
-        "image": "images/servant_icons/Leonardo_da_Vinci.png"
+        "image": "images/servant_icons/Leonardo_Da_Vinci.png"
     },
 
     {
@@ -3966,7 +3966,7 @@
             "morality": "Good"
         },
         "aliases":["ortlinde","hildr","thrud"],
-        "image": "images/servant_icons/valkyrie.png"
+        "image": "images/servant_icons/Valkyrie.png"
     },
 
     {
@@ -4688,7 +4688,7 @@
             "morality": "Good"
         },
         "aliases":["Gran cavallo"],
-        "image": "images/servant_icons/Leonardo_da_Vinci_(Rider).png"
+        "image": "images/servant_icons/Leonardo_Da_Vinci_(Rider).png"
     },
 
     {
@@ -8118,7 +8118,7 @@
         "gender": "female",
         "class": "berserker",
         "year": 2025,   
-        "rarity": 4,
+        "rarity": 5,
         "hint1":"Like a Radiant Night",
         "hint2":"Middle East",
         "hint3":"Quick",
