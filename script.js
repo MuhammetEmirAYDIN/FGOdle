@@ -154,12 +154,14 @@ document.getElementById("dailyMode").onclick = () => {
 gameMode = 'daily';
 document.getElementById("refreshRandom").style.display = "none";
 loadDailyServant();
+restartGame();
 };
 
 document.getElementById("randomMode").onclick = () => {
   gameMode = 'random';
   document.getElementById("refreshRandom").style.display = "inline";
   loadRandomServant();
+  restartGame();
 };
 
 document.getElementById("refreshRandom").onclick = () => {
