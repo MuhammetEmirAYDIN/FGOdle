@@ -131,8 +131,8 @@ button:hover
 }
   
   .header-row .hint-box {
-    background: rgba(30, 30, 60, 0.85); /* Darker bluish tone, more opaque */
-    color: #f9e8b2; /* soft golden FGO-style text */
+    background: rgba(30, 30, 60, 0.85); 
+    color: #f9e8b2; 
     font-size: 15px;
     border: 1px solid rgba(255, 215, 0, 0.4);
     border-bottom: 2px solid #ffd700;
@@ -141,19 +141,19 @@ button:hover
     backdrop-filter: blur(8px);
   } 
   
-  /* Coloring for guess results */
+ 
   .hint-box.correct {
-    background-color: rgba(0, 255, 0, 0.4); /* greenish */
+    background-color: rgba(0, 255, 0, 0.4); 
     font-size: 17px;
   }
   
   .hint-box.partial {
-    background-color: rgba(255, 165, 0, 0.4); /* orange */
+    background-color: rgba(255, 165, 0, 0.4); 
     font-size: 17px;
   }
 
   .hint-box.wrong {
-    background-color: rgba(255, 0, 0, 0.4); /* reddish */
+    background-color: rgba(255, 0, 0, 0.4); 
     font-size: 17px;
   }
   
@@ -345,7 +345,7 @@ button:hover
 }
 
 .empty-header {
-  width: 80px; /* Same width as image column */
+  width: 80px; 
 }
 
 .hint-1 .clickable-hint
@@ -477,67 +477,54 @@ h2 {
   }
 }
 
-@media (max-width: 600px)
-{
-  body
-  {
+@media screen and (max-width: 768px) {
+  body {
     padding: 20px;
   }
 
-  h1
-  {
+  h1 {
     font-size: 1.8em;
-    margin-bottom: 40px;
   }
 
-  .input-row
-  {
+  .input-row {
     flex-direction: column;
-    align-items: center;
     gap: 10px;
   }
 
-   input
-  {
+  input, button {
     width: 100%;
-    max-width: 300px;
+    font-size: 14px;
   }
 
-  button 
-  {
-    width: 100%;
-    max-width: 250px;
+  .guess-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
-  .guess-row 
-  {
-    grid-template-columns: 60px repeat(9, 1fr);
-    gap: 4px;
-    overflow-x: auto;
-  }
-
-  .hint-box 
-  {
+  .hint-box {
     width: 80px;
+    height: auto;
+    font-size: 12px;
+  }
+
+  .guess-image, .guess-servant-image {
+    width: 50px;
     height: 50px;
-    font-size: 13px;
   }
 
-  .guess-servant-image 
-  {
-    width: 60px;
-    height: 60px;
+  .modal-content {
+    width: 95%;
+    padding: 20px;
   }
 
-  .modal-content 
-  {
-    width: 90%;
-    padding: 25px;
+  .revealed-hint {
+    font-size: 14px;
   }
 
-  .VictoryImage 
-  {
-    max-height: 180px;
+  .hint-bar span {
+    font-size: 14px;
+    padding: 8px 12px;
   }
 }
 

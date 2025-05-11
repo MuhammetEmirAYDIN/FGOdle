@@ -50,14 +50,14 @@ function updateStreakOnWin() {
         const lastDate = new Date(lastPlayed);
         const diffDays = Math.floor((new Date(today) - lastDate) / (1000 * 60 * 60 * 24));
         if (diffDays === 1) {
-            currentStreak++; // Continue streak
+            currentStreak++; 
         } else if (diffDays === 0) {
-            // Already played today, no change
+           
         } else {
-            currentStreak = 1; // Reset
+            currentStreak = 1; 
         }
     } else {
-        currentStreak = 1; // First ever win
+        currentStreak = 1; 
     }
 
     localStorage.setItem('lastPlayedDate', today);
@@ -71,14 +71,14 @@ let dropdown;
 function setupCustomDropdown() {
     const input = document.getElementById('guessInput');
     
-    // Create dropdown element
+    
     dropdown = document.createElement('div');
     dropdown.id = 'customDropdown';
 
-    // Add dropdown after input
+   
     input.parentNode.insertBefore(dropdown, input.nextSibling);
     
-    // Position dropdown under the input
+    
     function updatePosition() {
         const rect = input.getBoundingClientRect();
         dropdown.style.left = rect.left + window.scrollX + 'px';
@@ -86,11 +86,11 @@ function setupCustomDropdown() {
         dropdown.style.width = input.offsetWidth + 'px';
     }
     
-    // Update position initially and on window resize
+    
     updatePosition();
     window.addEventListener('resize', updatePosition);
     
-    // Hide dropdown when clicking outside
+    
     document.addEventListener('click', (event) => {
         if (event.target !== input && event.target !== dropdown) {
             dropdown.style.display = 'none';
@@ -117,7 +117,7 @@ function updateDropdown(servants) {
             img.className = 'dropdown-option-img';
             img.classList.add('servant-image');
             
-            // Add servant name
+            
             const nameText = document.createElement('span');
             nameText.textContent = servant.name;
             option.appendChild(img);
@@ -135,7 +135,7 @@ function updateDropdown(servants) {
     }
 }
 
-// Update your main code to use the custom dropdown
+
 let servantList = [];
 let allServants = [];
 let answer = null;
@@ -177,7 +177,7 @@ function refreshHintsUI() {
         if (hintShownFlags[i]) {
             container.style.display = "none";
         } else if (hintUnlocked[i]) {
-            // Only unlock if explicitly marked unlocked
+            
             countdownSpan.textContent = "Unlock Hint";
             countdownSpan.classList.add("clickable-hint");
             countdownSpan.style.cursor = "pointer";
@@ -186,7 +186,7 @@ function refreshHintsUI() {
             countdownSpan.textContent = remaining > 0 ? remaining : 0;
             countdownSpan.classList.remove("clickable-hint");
             countdownSpan.style.cursor = "default";
-            container.style.display = "block" // Make sure it's shown
+            container.style.display = "block" 
         }
     }
 }
@@ -201,29 +201,28 @@ fetch('servants.json')
         allServants = [...data];
         servantList.forEach(servant => {
             if (servant.aligment) {
-                // Convert order to array if it's not already
+                
                 if (!Array.isArray(servant.aligment.order)) {
                     servant.aligment.order = [servant.aligment.order];
                 }
 
-                // Convert morality to array if it's not already
+                
                 if (!Array.isArray(servant.aligment.morality)) {
                     servant.aligment.morality = [servant.aligment.morality];
                 }
             }
         });
 
-        // Now, servantList is populated. Load the appropriate servant.
+       
         if (gameMode === 'daily') {
-            console.log("Loading Daily Servant...");
+            
             loadDailyServant();
         } else {
-            console.log("Loading Random Servant...");
+            
             loadRandomServant();
         }
+        
 
-        // Ensure answer is populated before accessing it
-        console.log("Random Servant selected:", answer ? answer.name : 'No answer set');
         setupCustomDropdown();
     })
     .catch(error => {
@@ -236,8 +235,8 @@ function loadDailyServant() {
     currentServant = servantList[index];
     answer = currentServant;
 
-    // Log to ensure answer is correctly set
-    console.log("Daily Servant loaded:", answer ? answer.name : 'No answer set');
+   
+    
     resetGameState();
 }
 
@@ -246,8 +245,8 @@ function loadRandomServant() {
     currentServant = servantList[index];
     answer = currentServant;
 
-    // Log to ensure answer is correctly set
-    console.log("Random Servant loaded:", answer ? answer.name : 'No answer set');
+    
+    
     resetGameState();
 }
 function restartGame() {
@@ -263,7 +262,7 @@ function restartGame() {
 
     guessesDiv.innerHTML = "";
 
-    servantList = [...allServants];  // ✅ Fully restore list
+    servantList = [...allServants]; 
     updateDropdown([]);
 }
 
@@ -284,11 +283,11 @@ function resetGameState() {
         hintUnlocked[i] = false;
         hintShownFlags[i] = false;
     }
-    // Clear hint display
+    
     const revealedContainer = document.getElementById("revealedHints");
     revealedContainer.innerHTML = '';
 
-    // Rebuild ONLY the hints the user has already chosen to reveal
+    
     for (let i = 0; i < 3; i++) {
         if (hintShownFlags[i]) {
             const hintKey = `hint${i + 1}`;
@@ -299,7 +298,7 @@ function resetGameState() {
             revealedContainer.appendChild(hintP);
         }
     }
-    // Reset button states properly
+    
     refreshHintsUI();
 }
 
@@ -318,7 +317,7 @@ hintContainer.addEventListener('click', () => {
             hintP.className = `revealed-hint hint-${i + 1}`;
             revealed.appendChild(hintP);
 
-            // ✅ Save to localStorage
+            
             const revealedHints = JSON.parse(localStorage.getItem('revealedHints') || '[]');
             revealedHints.push({ index: i, text: newHint });
             localStorage.setItem('revealedHints', JSON.stringify(revealedHints));
@@ -358,15 +357,15 @@ window.addEventListener("click", (event) => {
   });
 input.addEventListener("input", (event) => {
     const query = event.target.value.toLowerCase().trim();
-    console.log(`Query: '${query}'`);
+    
 
     if(query) {
         const filteredServants = servantList.filter(servant => {
-            // Check name matches
+            
             const nameParts = servant.name.toLowerCase().split(/\s+/);
             const nameMatches = nameParts.some(part => part.startsWith(query));
             
-            // Check alias matches
+            
             let aliasMatches = false;
             if (servant.aliases && Array.isArray(servant.aliases)) {
                 aliasMatches = servant.aliases.some(alias => 
@@ -374,14 +373,13 @@ input.addEventListener("input", (event) => {
                 );
                 
                 if (aliasMatches) {
-                    console.log(`Found match by alias: ${servant.name} has alias that matches '${query}'`);
+                    
                 }
             }
             
             return nameMatches || aliasMatches;
         });
         
-        console.log(`Found ${filteredServants.length} matching servants`);
         updateDropdown(filteredServants);
     } else {
         updateDropdown([]);
@@ -519,7 +517,7 @@ answer.aligment.order.forEach(order => {
                 const partialMatch = gAlign.order === aAlign.order || gAlign.morality === aAlign.morality;
         
                 if (fullMatch) {
-                    // Only mark full match as correct if there's only ONE alignment on both sides
+                    
                     if (gAligns.length === 1 && aAligns.length === 1) {
                         alignMatch = "correct";
                     } else {
@@ -533,7 +531,7 @@ answer.aligment.order.forEach(order => {
             if (alignMatch === "correct") break;
         }
         
-        // Format all guessed alignments for display
+        
         const alignText = gAligns.map(a => `${a.order} ${a.morality}`).join("\n");
         row.appendChild(makeBox(alignText, alignMatch));
         
