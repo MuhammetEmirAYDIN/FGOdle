@@ -540,3 +540,9 @@ h2 {
     max-height: 180px;
   }
 }
+
+.guess-container 
+{
+  overflow-x: auto;
+  width: 100%;
+}
