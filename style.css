@@ -312,22 +312,22 @@ button:hover
 }
 
 .servant-image {
-  width: 50px;  /* Adjust size as needed */
-  height: 50px; /* Adjust size as needed */
-  object-fit: cover; /* Ensures the image covers the square area without distortion */
-  border-radius: 0; /* Removes the circular shape */
-  margin-right: 10px; /* Space between image and name */
+  width: 50px;  
+  height: 50px; 
+  object-fit: cover; 
+  border-radius: 0; 
+  margin-right: 10px; 
 }
 
 .guess-image {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80px; /* Fixed width for image column */
-  height: 60px; /* Match height of hint boxes */
+  width: 80px; 
+  height: 60px; 
 }
 
-/* The actual image */
+
 .guess-servant-image {
   width: 70px;
   height: 70px;
@@ -335,13 +335,13 @@ button:hover
   border-radius: 0;
 }
 
-/* Update your guess-row to use grid instead of flex */
+
 .guess-row {
   display: grid;
-  grid-template-columns: 80px repeat(9, 1fr); /* First column for image, then 7 equal columns */
+  grid-template-columns: 80px repeat(9, 1fr); 
   gap: 8px;
   margin-top: 10px;
-  align-items: center; /* This ensures vertical alignment */
+  align-items: center; 
 }
 
 .empty-header {
@@ -399,16 +399,16 @@ button:hover
   transform: translate(-50%, -50%);
   padding: 40px;
   text-align: center;
-  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
+  background: linear-gradient(135deg, #ff7e5f, #feb47b); 
   border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Smooth shadow */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); 
   color: white;
   max-width: 450px;
   width: 80%;
   animation: scaleUp 0.5s ease-out;
 }
 
-/* Close Button */
+
 .close-button {
   position: absolute;
   top: 15px;
@@ -420,25 +420,25 @@ button:hover
 }
 
 .close-button:hover {
-  transform: scale(1.2); /* Hover effect on close button */
+  transform: scale(1.2); 
 }
 
-/* Victory Image Styling */
+
 .VictoryImage {
   width: 100%;
   max-height: 250px;
-  object-fit: cover; /* Ensure the image fits well */
+  object-fit: cover; 
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Soft shadow around the image */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); 
   margin-top: 20px;
   transition: transform 0.3s ease-in-out;
 }
 
 .VictoryImage:hover {
-  transform: scale(1.05); /* Hover effect to make image pop */
+  transform: scale(1.05); 
 }
 
-/* Heading Styling */
+
 h2 {
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
@@ -448,7 +448,7 @@ h2 {
   letter-spacing: 2px;
 }
 
-/* Streak Text Styling */
+
 #StreakText {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
@@ -457,7 +457,7 @@ h2 {
   margin-top: 20px;
 }
 
-/* Fade-In Animation */
+
 @keyframes fadeIn {
   from {
       opacity: 0;
@@ -467,12 +467,76 @@ h2 {
   }
 }
 
-/* Scale-Up Animation */
+
 @keyframes scaleUp {
   from {
       transform: translate(-50%, -50%) scale(0.9);
   }
   to {
       transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@media (max-width: 600px)
+{
+  body
+  {
+    padding: 20px;
+  }
+
+  h1
+  {
+    font-size: 1.8em;
+    margin-bottom: 40px;
+  }
+
+  .input-row
+  {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+   input
+  {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  button 
+  {
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .guess-row 
+  {
+    grid-template-columns: 60px repeat(9, 1fr);
+    gap: 4px;
+    overflow-x: auto;
+  }
+
+  .hint-box 
+  {
+    width: 80px;
+    height: 50px;
+    font-size: 13px;
+  }
+
+  .guess-servant-image 
+  {
+    width: 60px;
+    height: 60px;
+  }
+
+  .modal-content 
+  {
+    width: 90%;
+    padding: 25px;
+  }
+
+  .VictoryImage 
+  {
+    max-height: 180px;
   }
 }
