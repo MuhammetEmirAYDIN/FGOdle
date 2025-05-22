@@ -18,7 +18,7 @@
         "image": "images/servant_icons/Mash_Kyrielight.png"
     },
     {
-        "name": "Artoria Pendragon",
+        "name": "Altria Pendragon",
         "height": 154,
         "weight": 42,
         "gender": "female",
@@ -38,7 +38,7 @@
     },
 
     {
-        "name": "Artoria Pendragon (alter)",
+        "name": "Altria Pendragon (Alter)",
         "height": 154,
         "weight": 42,
         "gender": "female",
@@ -57,7 +57,7 @@
     },
 
     {
-        "name": "Artoria Pendragon (lily)",
+        "name": "Altria Pendragon (lily)",
         "height": 154,
         "weight": 42,
         "gender": "female",
@@ -1368,7 +1368,7 @@
     },
 
     {
-        "name": "Artoria Pendragon (Santa Alter)",
+        "name": "Altria Pendragon (Santa Alter)",
         "height": 154,
         "weight": 52,
         "gender": "female",
@@ -1463,7 +1463,7 @@
     },
 
     {
-        "name": "Artoria Pendragon (Lancer Alter)",
+        "name": "Altria Pendragon (Lancer Alter)",
         "height": 171,
         "weight": 57,
         "gender": "female",
@@ -2222,7 +2222,7 @@
     },
 
     {
-        "name": "Artoria Pendragon (Lancer)",
+        "name": "Altria Pendragon (Lancer)",
         "height": "171", 
         "weight": "57",
         "gender": "female",
@@ -2412,7 +2412,7 @@
     },
 
     {
-        "name": "Artoria Pendragon (Archer)",
+        "name": "Altria Pendragon (Archer)",
         "height": "154", 
         "weight": "42",
         "gender": "female",
@@ -3286,7 +3286,7 @@
     },
 
     {
-        "name": "Artoria Pendragon (Rider Alter)",
+        "name": "Altria Pendragon (Rider Alter)",
         "height": "154", 
         "weight": "42",
         "gender": "female",
@@ -4901,7 +4901,7 @@
     },
 
     {
-        "name": "Artoria Pendragon (Ruler)",
+        "name": "Altria Pendragon (Ruler)",
         "height": "171", 
         "weight": "57",
         "gender": "female",
@@ -5262,7 +5262,7 @@
     },
 
     {
-        "name": "Artoria Caster",
+        "name": "Altria Caster",
         "height": "154", 
         "weight": "42",
         "gender": "female",
@@ -7143,7 +7143,7 @@
     },
 
     {
-        "name": "Artoria Caster (Berserker)",
+        "name": "Altria Caster (Berserker)",
         "height": "154", 
         "weight": "42",
         "gender": "female",
