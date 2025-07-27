@@ -448,7 +448,16 @@ h2 {
   letter-spacing: 2px;
 }
 
-
+h3
+{
+  font-size: 1em;
+  font-weight: bold;
+  text-shadow: 0 0 3px white;
+  margin-top: 10px;
+  margin-bottom: 20px; 
+  color: red;
+  font-family: 'Playfair Display', serif
+}
 #StreakText {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
